@@ -23,7 +23,7 @@ spec:
           {{- if $value.env }}
           envFrom:
           - secretRef:
-              name: myapp-secrets
+              name: proj-secrets
           {{- end }}
           {{- if eq $key "mongodb" }}
           volumeMounts:
