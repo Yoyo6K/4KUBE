@@ -20,9 +20,11 @@ spec:
         - name: {{ $key }}
           image: "{{ if hasPrefix "/" $value.image.name }}{{ $.Values.global.imageRegistry }}{{ $value.image.name }}{{ else }}{{ $value.image.name }}{{ end }}:{{ $value.image.tag }}"
           imagePullPolicy: IfNotPresent
-          env:
-            - name: SPRING_PROFILES_ACTIVE
-              value: production-microservice
+          {{- if $value.env }}
+          envFrom:
+          - secretRef:
+              name: myapp-secrets
+          {{- end }}
           {{- if eq $key "mongodb" }}
           volumeMounts:
             - mountPath: /data/db

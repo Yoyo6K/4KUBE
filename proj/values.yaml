@@ -1,7 +1,4 @@
 global:
-  env:
-    - name: SPRING_PROFILES_ACTIVE
-      value: production-microservice
   imageRegistry: supinfo4kube
 
 default:
@@ -12,6 +9,7 @@ deployments:
     image:
       name: /api-gateway
       tag: 1.0.1
+    env: true
   mongodb:
     image:
       name: mongo
@@ -20,10 +18,12 @@ deployments:
     image:
       name: /position-simulator
       tag: 1.0.1
+    env: true
   position-tracker:
     image:
       name: /position-tracker
       tag: 1.0.1
+    env: true
   queue:
     image:
       name: /queue
