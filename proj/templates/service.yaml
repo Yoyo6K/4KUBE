@@ -1,0 +1,21 @@
+{{- range $key, $value := .Values.services }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fleetman-{{ $key }}
+  labels:
+    app: {{ $key }}
+spec:
+  type: {{ $value.type | default "ClusterIP" }}
+  ports:
+    {{- range $port := $value.ports}}
+    - name: {{ $port.name }}-service
+      port: {{ $port.port }}
+    {{- if $port.nodePort}}
+      nodePort: {{$port.nodePort}}
+    {{- end}}
+    {{- end }}
+  selector:
+    app: {{ $key }}
+{{- end }}

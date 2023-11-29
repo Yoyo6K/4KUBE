@@ -1,0 +1,71 @@
+global:
+  env:
+    - name: SPRING_PROFILES_ACTIVE
+      value: production-microservice
+  imageRegistry: supinfo4kube
+
+default:
+  replicas: 1
+
+deployments:
+  api-gateway:
+    image:
+      name: /api-gateway
+      tag: 1.0.1
+  mongodb:
+    image:
+      name: mongo
+      tag: 3.6.23
+  position-simulator:
+    image:
+      name: /position-simulator
+      tag: 1.0.1
+  position-tracker:
+    image:
+      name: /position-tracker
+      tag: 1.0.1
+  queue:
+    image:
+      name: /queue
+      tag: 1.0.1
+  webapp:
+    image:
+      name: /web-app
+      tag: 1.0.0
+
+services:
+  api-gateway:
+    type: ClusterIP
+    ports:
+      - name: api-gateway
+        port: 8080
+  mongodb:
+    type: ClusterIP
+    ports:
+      - name: mongodb
+        port: 27017
+  position-tracker:
+    type: ClusterIP
+    ports:
+      - name: position-tracker
+        port: 8080
+  queue:
+    type: NodePort
+    ports:
+      - name: queue-1
+        port: 8161
+        nodePort: 30010
+      - name: queue-2
+        port: 61616
+  webapp:
+    type: NodePort
+    ports:
+      - name: webapp
+        port: 80
+        nodePort: 30080
+
+volumes:
+  mongodb-pv-claim:
+    accessModes:
+      - ReadWriteOnce
+    size: 4Gi

@@ -1,0 +1,37 @@
+{{- range $key, $value := .Values.deployments }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $key }}
+  labels:
+    app: {{ $key }}
+spec:
+  replicas: {{ $.Values.default.replicas }}
+  selector:
+    matchLabels:
+      app: {{ $key }}
+  template:
+    metadata:
+      labels:
+        app: {{ $key }}
+    spec:
+      containers:
+        - name: {{ $key }}
+          image: "{{ if hasPrefix "/" $value.image.name }}{{ $.Values.global.imageRegistry }}{{ $value.image.name }}{{ else }}{{ $value.image.name }}{{ end }}:{{ $value.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: production-microservice
+          {{- if eq $key "mongodb" }}
+          volumeMounts:
+            - mountPath: /data/db
+              name: mongodb-0
+          {{- end }}
+      {{- if eq $key "mongodb" }}
+      volumes:
+        - name: mongodb-0
+          persistentVolumeClaim: 
+            claimName: mongodb-pv-claim
+      {{- end }}
+{{- end }}
