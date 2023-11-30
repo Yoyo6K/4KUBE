@@ -82,6 +82,13 @@ Le déploiement de cette application sur un environnement Kubernetes via Docker 
      ```
    - Vous devriez voir la liste des pods associées à votre déploiement.
 
+6. **Accès à l'Application**
+Une fois l'application déployée, elle est accessible via :
+```
+http://localhost:30080/
+```
+N'oubliez pas qu'il peut être nécessaire d'attendre quelques minutes après le déploiement pour que l'application soit pleinement opérationnelle, y compris l'affichage des camions.
+
 ### Nettoyage
 
 Pour supprimer le déploiement de l'application :
@@ -140,6 +147,15 @@ data:
   username: [NOM_UTILISATEUR_CRYPTÉ_EN_BASE_64]
   password: [MOT_DE_PASSE_CRYPTÉ_EN_BASE_64]
 ```
+## Configuration des Ressources
+
+Chaque service déployé dans Kubernetes a une configuration de ressources définie pour le CPU et la mémoire. Ces configurations aident à assurer que chaque service reçoit les ressources nécessaires pour son fonctionnement optimal.
+
+**Définition des Limites et Demandes** :
+
+- requests : Les ressources minimales garanties pour le service.
+
+- limits : Les plafonds des ressources que le service ne peut pas dépasser.
 
 ## Contact
 Pour toute question ou demande concernant ce projet, vous pouvez me contacter directement :
