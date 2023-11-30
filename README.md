@@ -10,7 +10,10 @@ Ce projet déploie une application distribuée sur Kubernetes en utilisant Helm.
 
 ## Structure du Répertoire
 
-- `templates/` : Contient les templates pour les ressources Kubernetes. Ce répertoire inclut des templates pour les divers composants tels que les déploiements, les services et les volumes persistants.
+- `templates/` : Contient les templates pour les ressources Kubernetes. Ce répertoire inclut :
+  * `deployment.yaml` : Template pour les déploiements des divers microservices de l'application.
+  * `service.yaml` : Template pour les services Kubernetes qui exposent les microservices.
+  * `persistentvolumeclaim.yaml` : Template pour la gestion des volumes persistants, notamment pour la base de données MongoDB.
 - `values.yaml` : Fichier de configuration centralisé pour personnaliser le déploiement. Il contient des paramètres clés comme les images de conteneurs, les tags, les ports et d'autres configurations spécifiques à l'application.
 - `secrets.yaml` : Ce fichier est utilisé pour définir les objets secrets de Kubernetes. Il contient des données sensibles telles que les variables d'environnement qui ne devraient pas être exposées publiquement.
 
