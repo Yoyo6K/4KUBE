@@ -18,8 +18,15 @@ spec:
     spec:
       containers:
         - name: {{ $key }}
-          image: "{{ if hasPrefix "/" $value.image.name }}{{ $.Values.global.imageRegistry }}{{ $value.image.name }}{{ else }}{{ $value.image.name }}{{ end }}:{{ $value.image.tag }}"
+          image: "{{ if hasPrefix "/" $value.image.name }}{{ $.Values.global.imageRegistry }}{{ $value.image.name }}{{ else }}{{ $value.image.name }}{{ end }}:{{ $value.image.tag | default $.Values.default.tag }}"
           imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              memory: {{ $.Values.default.resources.requests.memory }}
+              cpu: {{ $.Values.default.resources.requests.cpu }}
+            limits:
+              memory: {{ $.Values.default.resources.limits.memory }}
+              cpu: {{ $.Values.default.resources.limits.cpu }}
           {{- if $value.env }}
           envFrom:
           - secretRef:
